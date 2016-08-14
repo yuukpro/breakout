@@ -28,12 +28,12 @@ public class BreakoutGameField extends Application {
 		/**
 		 * 画面の初期設定
 		 */
-		Parent root = initTetris();
+		Parent root = initBreakout();
 		/**
 		 * 画面表示処理
 		 */
 		breakoutShow(primaryStage, root);
-		this.breakoutPlayFieldController.ballView();
+
 
 
 	}
@@ -51,7 +51,7 @@ public class BreakoutGameField extends Application {
 	/**
 	 * 初期作成
 	 */
-	public Parent initTetris() throws IOException {
+	public Parent initBreakout() throws IOException {
 
 		URL localtion = getClass().getClassLoader().getResource(
 				"resources/GameField.fxml");
