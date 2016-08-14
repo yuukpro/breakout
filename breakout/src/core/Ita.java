@@ -20,8 +20,7 @@ public class Ita {
 	 * 
 	 * @param vector
 	 *            方向
-	 * @param radius
-	 *            半径
+	 *            
 	 * @param speed
 	 *            スピード
 	 */
