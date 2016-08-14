@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 /**
- * ブロック崩しプレイフィールド フィールド内のテトリミノを管理
+ * ブロック崩しプレイフィールド フィールド内のブロック、板を管理
  * 
  */
 public class BreakoutPlayFieldController implements Initializable {
@@ -53,6 +53,9 @@ public class BreakoutPlayFieldController implements Initializable {
 		this.ita.initialize();
 		this.itaPane.getChildren().add(this.ita.getIta());
 	}
+	/***
+	 * ブロック初期描画
+	 */
 	private void initBlock(){
 		this.block1.initialize();
 		this.blockPane.getChildren().add(this.block1.block());

@@ -41,7 +41,7 @@ public class BreakoutGameField extends Application {
 	/**
 	 * ブロック崩し画面表示
 	 */
-	private void breakoutShow(final Stage primaryStage, Parent root) {
+	private void breakoutShow(final Stage primaryStage,final Parent root) {
 		primaryStage.setTitle("BREAKOUT");
 		Scene breakoutField = new Scene(root, 450, 640);
 		primaryStage.setScene(breakoutField);
