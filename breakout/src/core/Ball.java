@@ -9,8 +9,8 @@ import javafx.scene.shape.Circle;
  *
  */
 public class Ball {
-	private int height = 0;
-	private int width = 0;
+	private int height = 250;
+	private int width = 50;
 	private String vector;
 	private int radius;
 	private int speed;

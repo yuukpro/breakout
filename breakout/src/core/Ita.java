@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class Ita {
-	private int height = 250;
+	private int height = 10;
 	private int width = 100;
 	private int speed;
 	private Rectangle ita = new Rectangle();

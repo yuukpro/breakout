@@ -20,7 +20,7 @@ public class BreakoutPlayFieldController implements Initializable {
 	@FXML
 	private VBox vBox;
 	@FXML
-	private BorderPane ballPane;
+	private Pane ballPane;
 	@FXML
 	private Pane itaPane;
 	
@@ -34,13 +34,14 @@ public class BreakoutPlayFieldController implements Initializable {
 		this.initBall();
 		this.initIta();
 		
+		
 	}
 	/***
 	 * 板初期描画
 	 */
 	private void initBall(){
 		this.ball.initialize("up", 5, 5);
-		this.ballPane.setCenter(this.ball.getBall());
+		this.ballPane.getChildren().add(this.ball.getBall());
 		this.ballPane.setLayoutX(this.ball.getWidth());
 		this.ballPane.setLayoutY(this.ball.getHeight());
 	}
