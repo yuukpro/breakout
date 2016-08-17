@@ -2,13 +2,17 @@ package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import core.Ball;
 import core.Block1;
 import core.Ita;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 /**
  * ブロック崩しプレイフィールド フィールド内のブロック、板を管理
@@ -28,6 +32,8 @@ public class BreakoutPlayFieldController implements Initializable {
 	private Ball ball = new Ball();
 	private Ita ita = new Ita();
 	private Block1 block1 = new Block1();
+	// タイムライン
+	private Timeline timeLine;
 
 	@Override
 	public void initialize(final URL location, final ResourceBundle resources) {
@@ -59,8 +65,19 @@ public class BreakoutPlayFieldController implements Initializable {
 	private void initBlock(){
 		this.block1.initialize();
 		this.blockPane.getChildren().add(this.block1.block());
+		timeLine();
 	}
-	
+	/**
+	 * 定期処理登録
+	 */
+	private void timeLine() {
+		timeLine = new Timeline(new KeyFrame(Duration.millis(300), ae -> run()));
+		timeLine.setCycleCount(Timeline.INDEFINITE);
+		timeLine.play();
+	}
+	private void run(){
+
+	}
 
 
 }
