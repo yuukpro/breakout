@@ -9,8 +9,8 @@ import javafx.scene.shape.Circle;
  *
  */
 public class Ball {
-	private int height = 0;
-	private int width = 0;
+	private int height = 250;
+	private int width = 50;
 	private String vector;
 	private int radius;
 	private int speed;
@@ -34,7 +34,7 @@ public class Ball {
 		return vector;
 	}
 
-	public void changeVector(String vector) {
+	public void changeVector(final String vector) {
 		this.vector = vector;
 	}
 
@@ -42,7 +42,7 @@ public class Ball {
 		return speed;
 	}
 
-	public void changeSpeed(int speed) {
+	public void changeSpeed(final int speed) {
 		this.speed = speed;
 	}
 
@@ -50,7 +50,7 @@ public class Ball {
 		return ball;
 	}
 
-	public void setBall(Circle circle) {
+	public void setBall(final Circle circle) {
 		this.ball = circle;
 	}
 
@@ -58,7 +58,7 @@ public class Ball {
 		return height;
 	}
 
-	public void setHeight(int height) {
+	public void setHeight(final int height) {
 		this.height = height;
 	}
 
@@ -66,7 +66,7 @@ public class Ball {
 		return width;
 	}
 
-	public void setWidth(int width) {
+	public void setWidth(final int width) {
 		this.width = width;
 	}
 
