@@ -27,7 +27,7 @@ public class Ita {
 	public void initialize() {
 
 		this.changeSpeed(speed);
-		ita.setY(250);
+		ita.setY(550);
 		ita.setWidth(this.width);
 		ita.setHeight(this.height);
 		ita.setFill(Color.YELLOW);
@@ -50,6 +50,13 @@ public class Ita {
 
 	public Rectangle getIta() {
 		return this.ita;
+	}
+	public boolean attackPoint(final double ballX,final double ballY){
+		if(ballY==this.ita.getY()){
+			return false;
+		}
+		return true;
+		
 	}
 
 	/***

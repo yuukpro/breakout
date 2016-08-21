@@ -23,11 +23,9 @@ public class BreakoutPlayFieldController implements Initializable {
 	@FXML
 	private VBox vBox;
 	@FXML
-	private Pane ballPane;
-	@FXML
-	private Pane itaPane;
-	@FXML
-	private Pane blockPane;
+	private Pane fieldPane;
+
+	private int y=1;
 
 	private Ball ball = new Ball();
 	private Ita ita = new Ita();
@@ -47,35 +45,44 @@ public class BreakoutPlayFieldController implements Initializable {
 	 * 板初期描画
 	 */
 	private void initBall(){
-		this.ball.initialize("up", 5, 5);
-		this.ballPane.getChildren().add(this.ball.getBall());
-		this.ballPane.setLayoutX(this.ball.getWidth());
-		this.ballPane.setLayoutY(this.ball.getHeight());
+		this.ball.initialize(5, 5);
+		this.fieldPane.getChildren().add(this.ball.getBall());
+		this.fieldPane.setLayoutX(this.ball.getWidth());
+		this.fieldPane.setLayoutY(this.ball.getHeight());
 	}
 	/***
 	 * 板初期描画
 	 */
 	private void initIta(){
 		this.ita.initialize();
-		this.itaPane.getChildren().add(this.ita.getIta());
+		this.fieldPane.getChildren().add(this.ita.getIta());
 	}
 	/***
 	 * ブロック初期描画
 	 */
 	private void initBlock(){
 		this.block1.initialize();
-		this.blockPane.getChildren().add(this.block1.block());
+		this.fieldPane.getChildren().add(this.block1.block());
 		timeLine();
 	}
 	/**
 	 * 定期処理登録
 	 */
 	private void timeLine() {
-		timeLine = new Timeline(new KeyFrame(Duration.millis(300), ae -> run()));
+		timeLine = new Timeline(new KeyFrame(Duration.millis(10), ae -> run()));
 		timeLine.setCycleCount(Timeline.INDEFINITE);
 		timeLine.play();
 	}
 	private void run(){
+		//TODO テスト段階　一時コミットよう
+		this.ball.changeXY(y);
+		if(this.ball.getVector()&&this.ita.attackPoint(this.ball.getBallX(), this.ball.getBallY())){
+			this.y=1;
+			this.ball.changeVector(false);
+		}else if(this.ball.getVector()){
+			this.y=-1;
+		}
+		
 
 	}
 
