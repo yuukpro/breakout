@@ -15,6 +15,7 @@ public class Ita {
 	private int speed;
 	private Rectangle ita = new Rectangle();
 
+
 	/***
 	 * 板の初期化
 	 * 
@@ -51,11 +52,19 @@ public class Ita {
 	public Rectangle getIta() {
 		return this.ita;
 	}
+	/***
+	 * 板の当たり判定
+	 * @param ballX
+	 * @param ballY
+	 * @return
+	 */
 	public boolean attackPoint(final double ballX,final double ballY){
-		if(ballY==this.ita.getY()){
-			return false;
+		//板とボールが同じ座標かつ板の範囲内にボールがあること
+		if(ballY==this.ita.getY()&&this.ita.getX()<=ballX&&this.ita.getX()+this.width>=ballX){
+			return true;
+		}else {
+		return false;
 		}
-		return true;
 		
 	}
 
@@ -64,8 +73,12 @@ public class Ita {
 	 * 
 	 * @param x
 	 */
-	public void move(final int x) {
+	public void moveItaX(final int x) {
 		this.ita.setX(x);
 	}
+	public int getItaX(){
+		return (int) this.ita.getX();
+	}
+
 
 }
