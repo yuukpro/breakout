@@ -46,8 +46,9 @@ public class Ball {
 		this.speed = speed;
 	}
 	
-	public void changeXY(final int y){
+	public void changeXY(final double y,final double x){
 		this.ball.setCenterY(this.ball.getCenterY()+y);
+		this.ball.setCenterX(this.ball.getCenterX()+x);
 		
 	}
 
