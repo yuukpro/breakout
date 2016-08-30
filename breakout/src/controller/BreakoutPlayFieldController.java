@@ -4,8 +4,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import core.Ball;
-import core.Block1;
 import core.Ita;
+import core.NormalBlock;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
@@ -33,7 +33,7 @@ public class BreakoutPlayFieldController implements Initializable {
 
 	private Ball ball = new Ball();
 	private Ita ita = new Ita();
-	private Block1 block1 = new Block1();
+	private NormalBlock normalBlock = new NormalBlock();
 	// タイムライン
 	private Timeline timeLine;
 
@@ -71,8 +71,8 @@ public class BreakoutPlayFieldController implements Initializable {
 	 * ブロック初期描画
 	 */
 	private void initBlock() {
-		this.block1.initialize();
-		this.fieldPane.getChildren().add(this.block1.block());
+		this.normalBlock.initialize();
+		this.fieldPane.getChildren().add(this.normalBlock.block());
 		timeLine();
 	}
 
