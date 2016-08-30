@@ -79,6 +79,9 @@ public class Ita {
 	public int getItaX(){
 		return (int) this.ita.getX();
 	}
+	public int getWidth(){
+		return this.width;
+	}
 
 
 }

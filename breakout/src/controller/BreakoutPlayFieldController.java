@@ -28,7 +28,8 @@ public class BreakoutPlayFieldController implements Initializable {
 	@FXML
 	private Pane fieldPane;
 
-	private int y = 1;
+	private double y = 1;
+	private double x = 0.1;
 
 	private Ball ball = new Ball();
 	private Ita ita = new Ita();
@@ -79,18 +80,38 @@ public class BreakoutPlayFieldController implements Initializable {
 	 * 定期処理登録
 	 */
 	private void timeLine() {
-		timeLine = new Timeline(new KeyFrame(Duration.millis(10), ae -> run()));
+		timeLine = new Timeline(new KeyFrame(Duration.millis(5), ae -> run()));
 		timeLine.setCycleCount(Timeline.INDEFINITE);
 		timeLine.play();
 	}
 
+	/***
+	 * 定期処理
+	 */
 	private void run() {
-		// TODO テスト段階 一時コミットよう
-		this.ball.changeXY(y);
 
+		// 値更新
+		this.ball.changeXY(y, x);
+
+		// X座標の確認
+		if (this.ball.getBallX().intValue() == 0) {
+			this.x = 0.1;
+		} else if (this.ball.getBallX().intValue() == 430) {
+			this.x = -0.1;
+		}
+		// y座標の確認
 		if (this.ita.attackPoint(this.ball.getBallX(), this.ball.getBallY()) && !this.ball.getVector()) {
 			this.ball.changeVector(true);
+
 			this.y = -1;
+		} else if (this.ball.getBallY() == 0) {
+			this.y = 1;
+			this.ball.changeVector(false);
+		}
+
+		// TODO END
+		if (this.ball.getBallY().intValue() == 600) {
+			this.timeLine.stop();
 		}
 
 	}
@@ -126,10 +147,10 @@ public class BreakoutPlayFieldController implements Initializable {
 	private void itaMove(final int key) {
 		switch (key) {
 		case 1:
-			this.ita.moveItaX(this.ita.getItaX() - 10);
+			this.ita.moveItaX(this.ita.getItaX() - 20);
 			break;
 		case 2:
-			this.ita.moveItaX(this.ita.getItaX() + 10);
+			this.ita.moveItaX(this.ita.getItaX() + 20);
 			break;
 
 		}
