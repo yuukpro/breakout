@@ -3,11 +3,14 @@ package controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 import core.Ball;
 import core.BaseBlock;
+import core.GiantItem;
 import core.Ita;
 import core.NormalBlock;
+import core.SpeedItem;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
@@ -17,6 +20,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 /**
@@ -31,6 +35,10 @@ public class BreakoutPlayFieldController implements Initializable {
 	private Pane fieldPane;
 	// ブロック格納
 	private List<BaseBlock> blockList;
+	// アイテム格納
+	private List<SpeedItem> itemList = new ArrayList<>();
+	// アイテム格納
+	private List<GiantItem> giantList = new ArrayList<>();
 
 	private double y = 1;
 	private double x = 0.1;
@@ -75,15 +83,13 @@ public class BreakoutPlayFieldController implements Initializable {
 	 * ブロック初期描画
 	 */
 	private void initBlock() {
-		int y = 0;
-		int x = 0;
+
 		this.blockList = new ArrayList<>();
-		for (int i = 0; i <= 3; i++) {
+		for (int i = 0; i <= 10; i++) {
 			this.blockList.add(new NormalBlock());
-			this.blockList.get(i).initialize(1, x, y);
+			this.blockList.get(i).initialize(this.getRandomInt(6), this.getRandomInt(400), this.getRandomInt(300));
 			this.fieldPane.getChildren().add(this.blockList.get(i).getBlock());
-			y += 50;
-			x += 50;
+
 		}
 
 		timeLine();
@@ -114,6 +120,8 @@ public class BreakoutPlayFieldController implements Initializable {
 		blockAttackCheck();
 		// 板当たり判定
 		itaAttackCheck();
+		// アイテム判定
+		itemAttackCheck();
 
 		// TODO END
 		if (this.ball.getBallY().intValue() == 600) {
@@ -153,6 +161,8 @@ public class BreakoutPlayFieldController implements Initializable {
 			if (this.blockList.get(i).attackPoint(this.ball.getBallX(), this.ball.getBallY())
 					&& this.ball.getVector()) {
 				this.ball.changeVector(false);
+				this.fieldPane.getChildren().add(
+						viewItem(this.blockList.get(i).getBlock().getX(), this.blockList.get(i).getBlock().getY()));
 				this.y = 1;
 			}
 			if (this.blockList.get(i).life()) {
@@ -160,12 +170,40 @@ public class BreakoutPlayFieldController implements Initializable {
 			}
 
 		}
+
 		if (life == 0) {
 			this.timeLine.stop();
 		}
 
 	}
 
+	/***
+	 * アイテム当たり判定
+	 */
+	private void itemAttackCheck() {
+		if (!(this.itemList == null)) {
+			for (int i = 0; i < this.itemList.size(); i++) {
+				this.itemList.get(i).fall();
+				if (this.itemList.get(i).attackPoint(this.ita)) {
+					this.itemList.get(i).attack();
+					SpeedItem.speedUp(this.ita);
+				}
+			}
+		}
+		if (!(this.giantList == null)) {
+			for (int i = 0; i < this.giantList.size(); i++) {
+				this.giantList.get(i).fall();
+				if (this.giantList.get(i).attackPoint(this.ita)) {
+					this.giantList.get(i).attack();
+					GiantItem.giant(this.ita);
+				}
+			}
+		}
+	}
+
+	/***
+	 * 板の当たり判定
+	 */
 	private void itaAttackCheck() {
 		if (this.ita.attackPoint(this.ball.getBallX(), this.ball.getBallY()) && !this.ball.getVector()) {
 			this.ball.changeVector(true);
@@ -178,6 +216,9 @@ public class BreakoutPlayFieldController implements Initializable {
 
 	}
 
+	/***
+	 * 壁判定
+	 */
 	private void sideAttackCheck() {
 		// X座標の確認
 		if (this.ball.getBallX().intValue() == 0) {
@@ -195,13 +236,46 @@ public class BreakoutPlayFieldController implements Initializable {
 	private void itaMove(final int key) {
 		switch (key) {
 		case 1:
-			this.ita.moveItaX(this.ita.getItaX() - 20);
+			this.ita.moveItaX(this.ita.getItaX() - this.ita.getSpeed());
 			break;
 		case 2:
-			this.ita.moveItaX(this.ita.getItaX() + 20);
+			this.ita.moveItaX(this.ita.getItaX() + this.ita.getSpeed());
 			break;
 
 		}
+	}
+
+	/***
+	 * アイテム登録
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public Circle viewItem(final double x, final double y) {
+		if (this.getRandomInt(100) % 2 == 1) {
+			SpeedItem item = new SpeedItem();
+			item.initialize(x, y);
+			this.itemList.add(item);
+			return item.getItem();
+		} else {
+			GiantItem item = new GiantItem();
+			item.initialize(x, y);
+			this.giantList.add(item);
+			return item.getItem();
+
+		}
+	}
+
+	/***
+	 * ランダム値生成用
+	 * 
+	 * @param rundom
+	 * @return
+	 */
+	public int getRandomInt(final int rundom) {
+		Random rnd = new Random();
+		return rnd.nextInt(rundom) + 1;
 	}
 
 }

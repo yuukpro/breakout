@@ -21,13 +21,12 @@ public class BaseBlock {
 		this.block.setX(x);
 		this.block.setWidth(80);
 		this.block.setHeight(20);
-		this.block.setFill(Color.VIOLET);
+		this.life = life;
+		this.changeColor();
 		this.block.setArcWidth(20);
 		this.block.setArcHeight(20);
-		this.life = life;
 
 	}
-
 
 	// 当たり判定
 	public boolean attackPoint(final double ballX, final double ballY) {
@@ -54,6 +53,21 @@ public class BaseBlock {
 		case 1:
 			this.block.setFill(Color.BLUE);
 			break;
+		case 2:
+			this.block.setFill(Color.BLUEVIOLET);
+			break;
+		case 3:
+			this.block.setFill(Color.TAN);
+			break;
+		case 4:
+			this.block.setFill(Color.CYAN);
+			break;
+		case 5:
+			this.block.setFill(Color.CRIMSON);
+			break;
+		case 6:
+			this.block.setFill(Color.DARKBLUE);
+			break;
 
 		default:
 			this.block.setFill(Color.VIOLET);
@@ -73,4 +87,5 @@ public class BaseBlock {
 
 		return this.block;
 	}
+
 }

@@ -2,14 +2,10 @@ package core;
 
 /***
  * ブロック１
+ * 
  * @author yuu
  *
  */
-public class NormalBlock extends BaseBlock{
-	
-	
-	
-	
-
+public class NormalBlock extends BaseBlock {
 
 }
