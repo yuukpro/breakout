@@ -1,11 +1,13 @@
 package controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-
 import core.Ball;
-import core.Block1;
+import core.BaseBlock;
 import core.Ita;
+import core.NormalBlock;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
@@ -27,13 +29,15 @@ public class BreakoutPlayFieldController implements Initializable {
 	private VBox vBox;
 	@FXML
 	private Pane fieldPane;
+	// ブロック格納
+	private List<BaseBlock> blockList;
 
 	private double y = 1;
 	private double x = 0.1;
 
 	private Ball ball = new Ball();
 	private Ita ita = new Ita();
-	private Block1 block1 = new Block1();
+
 	// タイムライン
 	private Timeline timeLine;
 
@@ -71,8 +75,17 @@ public class BreakoutPlayFieldController implements Initializable {
 	 * ブロック初期描画
 	 */
 	private void initBlock() {
-		this.block1.initialize();
-		this.fieldPane.getChildren().add(this.block1.block());
+		int y = 0;
+		int x = 0;
+		this.blockList = new ArrayList<>();
+		for (int i = 0; i <= 3; i++) {
+			this.blockList.add(new NormalBlock());
+			this.blockList.get(i).initialize(1, x, y);
+			this.fieldPane.getChildren().add(this.blockList.get(i).getBlock());
+			y += 50;
+			x += 50;
+		}
+
 		timeLine();
 	}
 
@@ -92,22 +105,15 @@ public class BreakoutPlayFieldController implements Initializable {
 
 		// 値更新
 		this.ball.changeXY(y, x);
+		// 壁の当たり判定
+		sideAttackCheck();
 
-		// X座標の確認
-		if (this.ball.getBallX().intValue() == 0) {
-			this.x = 0.1;
-		} else if (this.ball.getBallX().intValue() == 430) {
-			this.x = -0.1;
-		}
 		// y座標の確認
-		if (this.ita.attackPoint(this.ball.getBallX(), this.ball.getBallY()) && !this.ball.getVector()) {
-			this.ball.changeVector(true);
 
-			this.y = -1;
-		} else if (this.ball.getBallY() == 0) {
-			this.y = 1;
-			this.ball.changeVector(false);
-		}
+		// ブロック当たり判定
+		blockAttackCheck();
+		// 板当たり判定
+		itaAttackCheck();
 
 		// TODO END
 		if (this.ball.getBallY().intValue() == 600) {
@@ -137,6 +143,48 @@ public class BreakoutPlayFieldController implements Initializable {
 			}
 
 		});
+	}
+
+	// ブロック当たり判定
+	private void blockAttackCheck() {
+		int life = 0;
+		// y座標の確認
+		for (int i = 0; i < this.blockList.size(); i++) {
+			if (this.blockList.get(i).attackPoint(this.ball.getBallX(), this.ball.getBallY())
+					&& this.ball.getVector()) {
+				this.ball.changeVector(false);
+				this.y = 1;
+			}
+			if (this.blockList.get(i).life()) {
+				life++;
+			}
+
+		}
+		if (life == 0) {
+			this.timeLine.stop();
+		}
+
+	}
+
+	private void itaAttackCheck() {
+		if (this.ita.attackPoint(this.ball.getBallX(), this.ball.getBallY()) && !this.ball.getVector()) {
+			this.ball.changeVector(true);
+
+			this.y = -1;
+		} else if (this.ball.getBallY() == 0) {
+			this.y = 1;
+			this.ball.changeVector(false);
+		}
+
+	}
+
+	private void sideAttackCheck() {
+		// X座標の確認
+		if (this.ball.getBallX().intValue() == 0) {
+			this.x = 0.1;
+		} else if (this.ball.getBallX().intValue() == 430) {
+			this.x = -0.1;
+		}
 	}
 
 	/***
