@@ -1,7 +1,7 @@
 package core;
 
 /***
- * ブロック１
+ * ノーマルブロック
  * 
  * @author yuu
  *

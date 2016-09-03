@@ -40,8 +40,8 @@ public class BreakoutPlayFieldController implements Initializable {
 	// アイテム格納
 	private List<GiantItem> giantList = new ArrayList<>();
 
-	private double y = 1;
-	private double x = 0.1;
+	private double fallY = 1;
+	private double fallX = 0.1;
 
 	private Ball ball = new Ball();
 	private Ita ita = new Ita();
@@ -85,7 +85,7 @@ public class BreakoutPlayFieldController implements Initializable {
 	private void initBlock() {
 
 		this.blockList = new ArrayList<>();
-		for (int i = 0; i <= 10; i++) {
+		for (int i = 0; i <= 5; i++) {
 			this.blockList.add(new NormalBlock());
 			this.blockList.get(i).initialize(this.getRandomInt(6), this.getRandomInt(400), this.getRandomInt(300));
 			this.fieldPane.getChildren().add(this.blockList.get(i).getBlock());
@@ -110,18 +110,18 @@ public class BreakoutPlayFieldController implements Initializable {
 	private void run() {
 
 		// 値更新
-		this.ball.changeXY(y, x);
+		this.ball.changeXY(this.fallY, this.fallX);
 		// 壁の当たり判定
-		sideAttackCheck();
+		this.sideAttackCheck();
 
 		// y座標の確認
 
 		// ブロック当たり判定
-		blockAttackCheck();
+		this.blockAttackCheck();
 		// 板当たり判定
-		itaAttackCheck();
+		this.itaAttackCheck();
 		// アイテム判定
-		itemAttackCheck();
+		this.itemAttackCheck();
 
 		// TODO END
 		if (this.ball.getBallY().intValue() == 600) {
@@ -163,7 +163,7 @@ public class BreakoutPlayFieldController implements Initializable {
 				this.ball.changeVector(false);
 				this.fieldPane.getChildren().add(
 						viewItem(this.blockList.get(i).getBlock().getX(), this.blockList.get(i).getBlock().getY()));
-				this.y = 1;
+				this.fallY = 1;
 			}
 			if (this.blockList.get(i).life()) {
 				life++;
@@ -208,9 +208,9 @@ public class BreakoutPlayFieldController implements Initializable {
 		if (this.ita.attackPoint(this.ball.getBallX(), this.ball.getBallY()) && !this.ball.getVector()) {
 			this.ball.changeVector(true);
 
-			this.y = -1;
+			this.fallY = -1;
 		} else if (this.ball.getBallY() == 0) {
-			this.y = 1;
+			this.fallY = 1;
 			this.ball.changeVector(false);
 		}
 
@@ -222,9 +222,9 @@ public class BreakoutPlayFieldController implements Initializable {
 	private void sideAttackCheck() {
 		// X座標の確認
 		if (this.ball.getBallX().intValue() == 0) {
-			this.x = 0.1;
+			this.fallX = 0.1;
 		} else if (this.ball.getBallX().intValue() == 430) {
-			this.x = -0.1;
+			this.fallX = -0.1;
 		}
 	}
 
